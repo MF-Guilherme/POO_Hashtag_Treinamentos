@@ -31,8 +31,8 @@ class ContaCorrente: # nome da classe inicia-se com letra maiúscula e utiliza C
         self._cpf = cpf
         self._saldo = 0
         self._limite = None
-        self._agencia = agencia
-        self._num_conta = num_conta
+        self.agencia = agencia
+        self.num_conta = num_conta
         self._transacoes = []
         self.cartoes = []
 
@@ -86,19 +86,25 @@ class CartaoCredito:
         self.validade = f'{CartaoCredito._data_hora().month}/{CartaoCredito._data_hora().year + 4}'
         self.cod_seguranca = f'{randint(0,9)}{randint(0,9)}{randint(0,9)}'
         self.limite = 1000
+        self._senha = '1234'
         self.conta_corrente = conta_corrente
         conta_corrente.cartoes.append(self) # adicionando o objeto cartão a conta corrente 'self'
 
+    @property
+    def senha(self):
+        return self._senha
+
+    @senha.setter
+    def senha(self, nova_senha):
+        if len(nova_senha) == 4 and nova_senha.isnumeric():
+            self._senha = nova_senha
+        else:
+            print('Nova senha inválida')
 
 # duas linhas ao final do último método
 conta_Guilherme = ContaCorrente("Guilherme", "165.654.987-63", 1069, 32145)
 
 cartao_Guilherme = CartaoCredito('Guilherme', conta_Guilherme)
 
-print(cartao_Guilherme.conta_corrente._num_conta)
-
-print(cartao_Guilherme.validade)
-
-print(cartao_Guilherme.numero)
-
-print(cartao_Guilherme.cod_seguranca)
+print(vars(conta_Guilherme))
+print(conta_Guilherme.__dict__)
