@@ -1,5 +1,6 @@
 from random import randint
 
+
 class Agencia:
 
     def __init__(self, telefone, cnpj, numero):
@@ -33,6 +34,15 @@ class AgenciaVirtual(Agencia):
         super().__init__(telefone, cnpj, 1000)#chamando o método __init__ da superclasse
         self.site = site
         self.caixa = 1000000
+        self.caixa_paypal = 0
+
+    def depositar_paypal(self, valor):
+        self.caixa -= valor
+        self.caixa_paypal += valor
+
+    def sacar_paypal(self, valor):
+        self.caixa_paypal -= valor
+        self.caixa += valor
 
 
 class AgenciaComum(Agencia):
@@ -48,7 +58,19 @@ class AgenciaPremium(Agencia):
         super().__init__(telefone, cnpj, randint(10000, 99999))
         self.caixa = 10000000
 
+    def adicionar_cliente(self, nome, cpf, patrimonio):
+        if patrimonio >= 1000000:
+            super().adicionar_cliente(nome, cpf, patrimonio)
+        else:
+            print('O cliente não tem o patrimônio necessário para entrar na Agência Premium.')
 
-agv = AgenciaPremium(123456, 123451569)
-agv.verificar_caixa()
 
+if __name__ == '__main__':
+
+    agv = AgenciaVirtual(123456, 123451569, 'www.agv.com.br')
+    
+    agp = AgenciaPremium(12345678, 55604864812)
+    
+    agp.adicionar_cliente('Guilherme', 123456798, 1000000)
+    
+    print(agp.clientes)
