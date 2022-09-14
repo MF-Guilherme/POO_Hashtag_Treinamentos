@@ -1,3 +1,5 @@
+from random import randint
+
 class Agencia:
 
     def __init__(self, telefone, cnpj, numero):
@@ -25,13 +27,28 @@ class Agencia:
         self.clientes.append((nome, cpf, patrimonio))
 
 
-ag1 = Agencia('123456', '12345679', 1010)
-ag1.caixa = 1000000
-ag1.verificar_caixa()
+class AgenciaVirtual(Agencia):
 
-ag1.emprestar_dinheiro(70000, 124365412, 0.02)
-print(ag1.emprestimos)
-ag1.verificar_caixa()
+    def __init__(self, telefone, cnpj, site):
+        super().__init__(telefone, cnpj, 1000)#chamando o método __init__ da superclasse
+        self.site = site
+        self.caixa = 1000000
 
-ag1.adicionar_cliente('Guilherme', 1457921324, 120504)
-print(ag1.clientes)
+
+class AgenciaComum(Agencia):
+
+    def __init__(self, telefone, cnpj):
+        super().__init__(telefone, cnpj, randint(1001, 9999))
+        self.caixa = 1000000
+
+
+class AgenciaPremium(Agencia):
+
+    def __init__(self, telefone, cnpj):
+        super().__init__(telefone, cnpj, randint(10000, 99999))
+        self.caixa = 10000000
+
+
+agv = AgenciaPremium(123456, 123451569)
+agv.verificar_caixa()
+
